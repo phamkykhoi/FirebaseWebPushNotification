@@ -2,57 +2,80 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="manifest" href="manifest.json" />
 </head>
 <body>
-    <h2>Firebase Web Push Notification Example</h2>
+    <div class="container">
+        <h1>Demo Firebase Notification</h1>
+        <div id="token"></div>
+        <div id="msg"></div>
+        <div id="notis"></div>
+        <div id="err"></div>
+    </div>
+
     <script type="module">
+        const MsgElem = document.getElementById('msg');
+        const TokenElem = document.getElementById('token');
+        const NotisElem = document.getElementById('notis');
+        const ErrElem = document.getElementById('err');
+        
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-analytics.js";
-        import { getMessaging, onMessage } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-messaging.js";
-
+        import { getMessaging, onMessage, getToken } from "https://www.gstatic.com/firebasejs/9.6.4/firebase-messaging.js";
+            
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
+      
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-            apiKey: "AIzaSyABUARMB77lNHFbv1Za-yWOA7mfB2zJZqY",
-            authDomain: "fir-45aff.firebaseapp.com",
-            projectId: "fir-45aff",
-            storageBucket: "fir-45aff.appspot.com",
-            messagingSenderId: "227914508446",
-            appId: "1:227914508446:web:1fa03dce9842e7fac6738f",
-            measurementId: "G-NP729LE0L0"
+          apiKey: "AIzaSyA-Obw97yHVYasTK7DrOvavoGgX41zVebc",
+          authDomain: "taskaji.firebaseapp.com",
+          projectId: "taskaji",
+          storageBucket: "taskaji.appspot.com",
+          messagingSenderId: "720130567731",
+          appId: "1:720130567731:web:8d46c2b7034c0d62463d46",
+          measurementId: "G-C3Y5BVP4JJ"
         };
-
+      
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
-
-        const messaging = getMessaging();
+        const messaging = getMessaging(app);
 
         console.log(messaging);
-
-        onMessage(messaging, (payload) => {
-            console.log('Message received. ', payload);
+        
+        getToken(messaging, { vapidKey: 'BK1JnFipR68dqq6E4VNbabG5pzhbsA2EETFvZdcbFp_3ZIAClk1F2O5ka7HnqmhWKq50pcrmSQl0vr2NosH6q1Q' }).then((currentToken) => {
+            if (currentToken) {
+                console.log(currentToken);
+                // Send the token to your server and update the UI if necessary
+            } else {
+                // Show permission request UI
+                console.log('No registration token available. Request permission to generate one.');
+            }
+        }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
         });
 
-        // messaging.onBackgroundMessage(function(payload) {
+        console.log(Notification.permission)
 
-        //     console.log('[firebase-messaging-sw.js] Received background message ', payload);
+        if (Notification.permission == 'granted') {
 
-        //     // Customize notification here
-        //     const notificationTitle = 'Background Message Title';
-        //     const notificationOptions = {
-        //         body: 'Background Message body.',
-        //         icon: '/firebase-logo.png'
-        //     };
+        }
 
-        //     self.registration.showNotification(notificationTitle, notificationOptions);
-        // });
+        function showNotice() {
+            const notification = new Notification('New message from demo', {
+                body: 'Thanks for join!',
+                icon: 'https://developer.mozilla.org/favicon-48x48.97046865.png',
+            });
+        }
 
+        showNotice();
     </script>
+      
 </body>
 </html>
-
