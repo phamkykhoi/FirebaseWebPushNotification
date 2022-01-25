@@ -1,5 +1,7 @@
-importScripts('https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/7.14.6/firebase-messaging.js');
+
+
+importScripts('https://www.gstatic.com/firebasejs/9.6.4/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/9.6.4/firebase-messaging.js');
 
 var firebaseConfig = {
   apiKey: "AIzaSyABUARMB77lNHFbv1Za-yWOA7mfB2zJZqY",
