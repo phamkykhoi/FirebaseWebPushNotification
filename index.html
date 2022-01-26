@@ -5,49 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="manifest" href="manifest.json" />
 </head>
-<body>
-    <div class="container">
-        <h1>Demo Firebase Notification</h1>
-        <div id="token"></div>
-        <div id="msg"></div>
-        <div id="notis"></div>
-        <div id="err"></div>
-    </div>
-
+<body onload="notifyMe()">
+             
     <script>
-         document.addEventListener('DOMContentLoaded', function() {
-             if (!Notification) {
-                alert('Desktop notifications not available in your browser. Try Chromium.');
-                return;
-             }
-
-            if (Notification.permission !== 'granted') {
-                Notification.requestPermission();
-            }
-             
-             notifyMe()
-             
-             console.log('Pushed!')
-        });
-
-
         function notifyMe() {
-         if (Notification.permission !== 'granted')
-            Notification.requestPermission();
-         else {
-          var notification = new Notification('Notification title', {
-                icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-                body: 'Hey there! You\'ve been notified!',
-          });
-             
-            notification.onclick = function() {
-                window.open('http://stackoverflow.com/a/13328397/1269037');
-            };
-         }
+            if (!window.Notification) {
+                console.log('Browser does not support notifications.');
+            } else {
+                // check if permission is already granted
+                if (Notification.permission === 'granted') {
+                    // show notification here
+                    var notify = new Notification('Hi there!', {
+                        body: 'How are you doing?',
+                        icon: 'https://bit.ly/2DYqRrh',
+                    });
+                } else {
+                    // request permission from user
+                    Notification.requestPermission().then(function (p) {
+                        if (p === 'granted') {
+                            // show notification here
+                            var notify = new Notification('Hi there!', {
+                                body: 'How are you doing?',
+                                icon: 'https://bit.ly/2DYqRrh',
+                            });
+                        } else {
+                            console.log('User blocked notifications.');
+                        }
+                    }).catch(function (err) {
+                        console.error(err);
+                    });
+                }
+            }
         }
     </script>
-      
 </body>
 </html>
